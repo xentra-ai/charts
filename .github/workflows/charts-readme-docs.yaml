@@ -9,27 +9,31 @@ on:
       - 'charts/**'
 
 env:
-  CHARTS_SRC_DIR: "charts"
-  TARGET_REGISTRY: ghcr.io
+  HELM_DOCS_VERSION: 1.11.2
 
 jobs:
   chart-readme:
     name: Update README
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Configure Git
+      - name: install helm-docs
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          cd /tmp
+          wget https://github.com/norwoodj/helm-docs/releases/download/v${{env.HELM_DOCS_VERSION}}/helm-docs_Linux_x86_64.tar.gz
+          tar -xvf helm-docs_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/sbin
 
-      - name: Generate Helm Docs
-        uses: shaybentk/helm-docs-action@v0.0.1
+      - name: run helm-docs
+        run: |
+          helm-docs -t README.md.gotmpl -o README.md
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit
         with:
-          working-dir: charts/kube-guardian
-          git-push: "true"
+          branch: ${{ github.event.pull_request.head.ref }}
