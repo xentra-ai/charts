@@ -7,10 +7,10 @@ on:
       - main
     paths:
       - '.github/workflows/charts-release-oci.yaml'
-      - 'deploy/charts/**'
+      - 'charts/**'
 
 env:
-  CHARTS_SRC_DIR: "deploy/charts"
+  CHARTS_SRC_DIR: "charts"
   TARGET_REGISTRY: ghcr.io
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: deploy/charts
+          charts_dir: ${{ env.CHARTS_SRC_DIR }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
