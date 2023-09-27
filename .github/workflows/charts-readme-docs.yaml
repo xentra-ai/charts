@@ -1,0 +1,35 @@
+name: "Charts: Update README"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/charts-readme-docs.yaml'
+      - 'charts/**'
+
+env:
+  CHARTS_SRC_DIR: "charts"
+  TARGET_REGISTRY: ghcr.io
+
+jobs:
+  chart-readme:
+    name: Update README
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Generate Helm Docs
+        uses: shaybentk/helm-docs-action@v0.0.1
+        with:
+          working-dir: charts/kube-guardian
+          git-push: "true"

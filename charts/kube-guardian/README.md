@@ -2,6 +2,8 @@
 
 This chart bootstraps the [Xentra]() controlplane onto a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square)
+
 ## Overview
 
 This Helm chart deploys:
@@ -35,7 +37,7 @@ helm install kube-guardian xentra/kube-guardian
 If you want to use the OCI variant of the helm chart, you can use the following command:
 
 ```bash
-helm template kube-guardian oci://ghcr.io/xentra-ai/charts/kube-guardian
+helm template kube-guardian oci://ghcr.io/xentra-ai/charts/kube-guardian --version 0.0.1
 ```
 
 ## Directory Structure
