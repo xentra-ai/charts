@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/charts-release-oci.yaml'
+      - '.github/workflows/charts-release-ghpages.yaml'
       - 'charts/**'
 
 env:
@@ -49,7 +49,7 @@ jobs:
 
       - name: Publish Helm Chart to GHCR
         run: |
-          helm package deploy/charts/kube-guardian
+          helm package charts/kube-guardian
           helm push kube-guardian-*.tgz oci://ghcr.io/xentra-ai/charts
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
