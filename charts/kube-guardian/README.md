@@ -37,7 +37,7 @@ helm install kube-guardian xentra/kube-guardian --namespace kube-guardian --crea
 If you want to use the OCI variant of the helm chart, you can use the following command:
 
 ```bash
-helm template kube-guardian oci://ghcr.io/xentra-ai/charts/kube-guardian --version 0.0.2
+helm template kube-guardian oci://ghcr.io/xentra-ai/charts/kube-guardian --namespace kube-guardian --create-namespace
 ```
 
 ## Directory Structure
