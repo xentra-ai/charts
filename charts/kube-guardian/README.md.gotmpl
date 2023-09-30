@@ -31,7 +31,7 @@ You can then run `helm search repo xentra` to search the charts.
 Install chart using Helm v3.0+
 
 ```bash
-helm install kube-guardian xentra/kube-guardian
+helm install kube-guardian xentra/kube-guardian -n kube-guardian --create-namespace
 ```
 
 If you want to use the OCI variant of the helm chart, you can use the following command:
