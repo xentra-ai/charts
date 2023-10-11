@@ -8,5 +8,5 @@ subjects:
   namespace: {{ include "kube-guardian.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: kube-guardian
+  name: {{ include "kube-guardian.name" . }}-viewer
   apiGroup: rbac.authorization.k8s.io

@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -5,7 +6,7 @@ metadata:
   labels:
     {{- include "kube-guardian.labels" . | nindent 4 }}
   annotations:
-    {{- include "kube-guardian.annotations" . | nindent 4 -}}
+    {{- include "kube-guardian.annotations" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -15,6 +16,7 @@ spec:
       labels:
         app.kubernetes.io/name: kube-guardian
     spec:
+      automountServiceAccountToken: true
       hostNetwork: true
       {{- if .Values.controller.imagePullSecrets }}
       imagePullSecrets:
@@ -26,10 +28,19 @@ spec:
         command: ["sh", "-c", "until wget -qO- http://{{ .Values.broker.service.name }}.{{ include "kube-guardian.namespace" . }}.svc.cluster.local:{{ .Values.broker.container.port }}/health; do sleep 5; done"]
       containers:
       - name: controller
+        {{- if .Values.controller.image.sha }}
+        image: "{{ .Values.controller.image.repository }}@{{ .Values.controller.image.sha }}"
+        {{- else }}
         image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+        {{- end }}
         args:
-          - "calico"
+          - "cilium"
         imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /usr/sbin/uninstall-xentra.sh
         securityContext:
           privileged: true
           capabilities:
@@ -38,7 +49,7 @@ spec:
             - SYS_MODULE
         env:
         - name: RUST_LOG
-          value: INFO
+          value: DEBUG
         - name: CURRENT_NODE
           valueFrom:
             fieldRef:
