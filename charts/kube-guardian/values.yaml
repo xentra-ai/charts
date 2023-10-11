@@ -19,10 +19,10 @@ namespace:
 
 controller:
   image:
-    repository: nginx
-    pullPolicy: IfNotPresent
+    repository: ghcr.io/xentra-ai/images/guardian-controller
+    pullPolicy: Always
     # -- Overrides the image tag.
-    tag: ""
+    tag: "latest"
 
   imagePullSecrets: []
   nameOverride: ""
@@ -91,10 +91,10 @@ broker:
   replicaCount: 1
 
   image:
-    repository: xentra-ai/broker
-    pullPolicy: IfNotPresent
+    repository: ghcr.io/xentra-ai/images/guardian-broker
+    pullPolicy: Always
     # Overrides the image tag.
-    tag: "v0.1.0"
+    tag: "latest"
     sha: ""
 
   container:
@@ -166,10 +166,14 @@ broker:
 database:
   name: guardian-db
   image:
-    repository: nginx
-    pullPolicy: IfNotPresent
+    repository: postgres
+    pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag: "latest"
+
+  persistence:
+    enabled: false
+    existingClaim: ""
 
   container:
     port: 5432
@@ -203,7 +207,8 @@ database:
     # runAsUser: 1000
 
   service:
-    type: ClusterIP
+    name: "postgres"
+    type: NodePort
     port: 80
 
   resources: {}

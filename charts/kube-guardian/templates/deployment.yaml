@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "kube-guardian.labels" . | nindent 4 }}
   annotations:
-    {{- include "kube-guardian.annotations" . | nindent 4 }}
+    {{- include "kube-guardian.annotations" . | nindent 4 -}}
 spec:
   {{- if not .Values.broker.autoscaling.enabled }}
   replicas: {{ .Values.broker.replicaCount }}
