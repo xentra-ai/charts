@@ -148,7 +148,7 @@ The following table lists the configurable parameters of the Xentra chart and th
 | global.priorityClassName | string | `""` | Priority class to be used for the kube-guardian pods |
 | namespace.annotations | object | `{}` | Annotations to add to the namespace |
 | namespace.labels | object | `{}` | Labels to add to the namespace |
-| namespace.name | string | `"kube-guardian"` |  |
+| namespace.name | string | `""` |  |
 
 ## Uninstalling the Chart
 
