@@ -28,7 +28,5 @@ sources:
   - https://github.com/xentra-ai/charts
 
 maintainers:
-  - email: mahesh.rayas@xentra-ai.com
-    name: Mahesh Rayas
-  - email: michael.fornaro@xentra-ai.com
-    name: Michael Fornaro
+  - name: Mahesh Rayas
+  - name: Michael Fornaro
