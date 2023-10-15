@@ -11,7 +11,7 @@ global:
   priorityClassName: ""
 
 namespace:
-  name: kube-guardian
+  name: ""
   # -- Labels to add to the namespace
   labels: {}
   # -- Annotations to add to the namespace
