@@ -35,7 +35,7 @@ spec:
         - name: db-data
           {{- if .Values.database.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.database.persistence.claimName }}
+            claimName: {{ .Values.database.persistence.existingClaim }}
           {{- else }}
           emptyDir: {}
           {{- end -}}
