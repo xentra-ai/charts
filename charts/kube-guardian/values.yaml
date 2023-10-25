@@ -81,7 +81,10 @@ controller:
     kubernetes.io/arch: amd64
 
   # -- Tolerations for the kube-guardian controller pod assignment
-  tolerations: []
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
 
   affinity: {}
 
