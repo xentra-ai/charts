@@ -2,7 +2,7 @@
 
 This chart bootstraps the [Xentra]() controlplane onto a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-![Version: 0.0.5](https://img.shields.io/badge/Version-0.0.5-informational?style=flat-square)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square)
 
 ## Overview
 
@@ -38,6 +38,20 @@ If you want to use the OCI variant of the helm chart, you can use the following 
 
 ```bash
 helm template kube-guardian oci://ghcr.io/xentra-ai/charts/kube-guardian --namespace kube-guardian --create-namespace
+```
+
+**Note:** *If you have the [Pod Securty Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) enabled for your cluster you will need to add the following annotation to the namespace that the chart is deployed*
+
+Example:
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
+  name: kube-guardian
 ```
 
 ## Directory Structure
@@ -112,7 +126,7 @@ The following table lists the configurable parameters of the Xentra chart and th
 | controller.serviceAccount.automountServiceAccountToken | bool | `false` | Automount API credentials for a service account |
 | controller.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | controller.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| controller.tolerations | list | `[]` | Tolerations for the kube-guardian controller pod assignment |
+| controller.tolerations | list | `[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane","operator":"Exists"}]` | Tolerations for the kube-guardian controller pod assignment |
 | database.affinity | object | `{}` |  |
 | database.autoscaling.enabled | bool | `false` |  |
 | database.autoscaling.maxReplicas | int | `100` |  |
